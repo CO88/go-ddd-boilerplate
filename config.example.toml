@@ -1,0 +1,12 @@
+# [server]
+# address = 
+
+# [context]
+# timeout = 
+
+# [DB]
+# hostname =
+# port = 
+# dbname = 
+# username = 
+# password = 
