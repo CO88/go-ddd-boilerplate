@@ -1,4 +1,8 @@
-
+# env
+.env
 
 # vendor
 vendor
+
+# config
+config.toml
