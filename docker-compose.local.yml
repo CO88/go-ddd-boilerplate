@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: go-ddd-api
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+    ports:
+      - 9090:9090
+    depends_on:
+      - mariadb
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.4.8
+    command: --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - ${DB_LOCAL_PATH}:/var/lib/mysql
+
