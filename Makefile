@@ -19,4 +19,4 @@ up:
 	@docker-compose -f docker-compose.local.yml up
 
 build-air:
-	@go build -o ./tmp/app/engine cmd/main.go 
+	@go build -o ./tmp/app/engine cmd/main.go  cmd/wire_gen.go

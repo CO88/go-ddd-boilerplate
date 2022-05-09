@@ -45,9 +45,7 @@ func main() {
 
 	//
 	timeoutContext := time.Duration(configuration.Context.Timeout) * time.Second
-
 	handler := InitailizeHandler(dbConn, timeoutContext)
-
 	handler.SetRoutes(e)
 	//
 
