@@ -29,7 +29,7 @@ type Configuration struct {
 	Server  Server
 }
 
-// sigleton
+// singleton
 var config *Configuration
 var once sync.Once
 

@@ -7,9 +7,6 @@ import (
 	"time"
 
 	"github.com/CO88/go-ddd-boilerplate/config"
-	_userHandler "github.com/CO88/go-ddd-boilerplate/user/delivery/http"
-	"github.com/CO88/go-ddd-boilerplate/user/repository/mysql"
-	"github.com/CO88/go-ddd-boilerplate/user/usecase"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -47,11 +44,11 @@ func main() {
 	e.Use(middleware.Recover())
 
 	//
-	userRepo := mysql.NewUserRepository(dbConn)
-
 	timeoutContext := time.Duration(configuration.Context.Timeout) * time.Second
-	uu := usecase.NewUserUsecase(userRepo, timeoutContext)
-	_userHandler.NewUserHandler(e, uu)
+
+	handler := InitailizeHandler(dbConn, timeoutContext)
+
+	handler.SetRoutes(e)
 	//
 
 	fmt.Println("hi")
