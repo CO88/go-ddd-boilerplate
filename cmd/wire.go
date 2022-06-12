@@ -14,8 +14,6 @@ import (
 	"github.com/google/wire"
 )
 
-// var Mainset = wire.NewSet(http.NewUserHandler, config.LoadConfig, container.NewDIContainer)
-
 // func InitailizeHandler(db *sql.DB) *container.DIContainer {
 // 	wire.Build(Mainset)
 // 	return nil

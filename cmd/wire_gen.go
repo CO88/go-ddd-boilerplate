@@ -8,13 +8,14 @@ package main
 
 import (
 	"database/sql"
-	"time"
-
 	"github.com/CO88/go-ddd-boilerplate/api"
 	"github.com/CO88/go-ddd-boilerplate/user/delivery/http"
 	"github.com/CO88/go-ddd-boilerplate/user/repository/mysql"
 	"github.com/CO88/go-ddd-boilerplate/user/usecase"
+	"time"
+)
 
+import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
