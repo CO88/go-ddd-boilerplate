@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/CO88/go-ddd-boilerplate/api"
 	"github.com/CO88/go-ddd-boilerplate/user/domain"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -17,12 +18,12 @@ type UserHandler struct {
 	UserUsecase domain.UserUsecase
 }
 
-func NewUserHandler(e *echo.Echo, uu domain.UserUsecase) {
-	handler := &UserHandler{
-		UserUsecase: uu,
-	}
+func NewUserHandler(uu domain.UserUsecase) api.ApiHandler {
+	return &UserHandler{UserUsecase: uu}
+}
 
-	e.GET("/user/:id", handler.GetOneById)
+func (uh *UserHandler) SetRoutes(e *echo.Echo) {
+	e.GET("/user/:id", uh.GetOneById)
 }
 
 func (uh *UserHandler) GetOneById(c echo.Context) error {

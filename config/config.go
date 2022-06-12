@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"sync"
 
 	"github.com/spf13/viper"
 )
@@ -28,25 +29,31 @@ type Configuration struct {
 	Server  Server
 }
 
+// singleton
+var config *Configuration
+var once sync.Once
+
 func LoadConfig() *Configuration {
-	viper.SetConfigName("config")
-	viper.SetConfigType("toml")
-	viper.AddConfigPath(".")
-	viper.AutomaticEnv()
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatal("Config read error")
-		panic(err)
-	}
+	once.Do(func() {
+		viper.SetConfigName("config")
+		viper.SetConfigType("toml")
+		viper.AddConfigPath(".")
+		viper.AutomaticEnv()
 
-	config := &Configuration{}
+		err := viper.ReadInConfig()
+		if err != nil {
+			log.Fatal("Config read error")
+			panic(err)
+		}
 
-	err = viper.Unmarshal(&config)
-	if err != nil {
-		log.Fatal("config unmarshal error")
-		panic(err)
-	}
+		config = &Configuration{}
 
+		err = viper.Unmarshal(&config)
+		if err != nil {
+			log.Fatal("config unmarshal error")
+			panic(err)
+		}
+	})
 	return config
 }
