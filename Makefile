@@ -18,5 +18,8 @@ run:
 up:
 	@docker-compose -f docker-compose.local.yml up
 
+down:
+	@docker-compose -f docker-compose.local.yml down -v
+
 build-air:
 	@go build -o ./tmp/app/engine cmd/main.go  cmd/wire_gen.go
