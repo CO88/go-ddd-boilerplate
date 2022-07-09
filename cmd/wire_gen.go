@@ -8,22 +8,25 @@ package main
 
 import (
 	"database/sql"
-	"github.com/CO88/go-ddd-boilerplate/api"
+	"github.com/CO88/go-ddd-boilerplate/config"
+	"github.com/CO88/go-ddd-boilerplate/container"
+	"github.com/CO88/go-ddd-boilerplate/user"
 	"github.com/CO88/go-ddd-boilerplate/user/delivery/http"
-	"github.com/CO88/go-ddd-boilerplate/user/repository/mysql"
+	"github.com/CO88/go-ddd-boilerplate/user/repository"
 	"github.com/CO88/go-ddd-boilerplate/user/usecase"
-	"time"
-)
-
-import (
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/google/wire"
 )
 
 // Injectors from wire.go:
 
-func InitailizeHandler(dbConn *sql.DB, timeout time.Duration) api.ApiHandler {
-	userRespository := mysql.NewUserRepository(dbConn)
-	userUsecase := usecase.NewUserUsecase(userRespository, timeout)
-	apiHandler := http.NewUserHandler(userUsecase)
-	return apiHandler
+func InitailizeDIContainer(configuration *config.Configuration, conn *sql.DB) *container.DIContainer {
+	userRespository := repository.NewUserRepository(conn)
+	userUsecase := usecase.NewUserUsecase(configuration, userRespository)
+	userHandler := http.NewUserHandler(userUsecase)
+	diContainer := container.NewDIContainer(configuration, userHandler)
+	return diContainer
 }
+
+// wire.go:
+
+var MainSet = wire.NewSet(container.NewDIContainer, user.UserSet)
