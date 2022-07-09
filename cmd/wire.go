@@ -5,24 +5,16 @@ package main
 
 import (
 	"database/sql"
-	"time"
 
-	"github.com/CO88/go-ddd-boilerplate/api"
-	"github.com/CO88/go-ddd-boilerplate/user/delivery/http"
-	"github.com/CO88/go-ddd-boilerplate/user/repository/mysql"
-	"github.com/CO88/go-ddd-boilerplate/user/usecase"
+	"github.com/CO88/go-ddd-boilerplate/config"
+	"github.com/CO88/go-ddd-boilerplate/container"
+	"github.com/CO88/go-ddd-boilerplate/user"
 	"github.com/google/wire"
 )
 
-// func InitailizeHandler(db *sql.DB) *container.DIContainer {
-// 	wire.Build(Mainset)
-// 	return nil
-// }
+var MainSet = wire.NewSet(container.NewDIContainer, user.UserSet)
 
-func InitailizeHandler(dbConn *sql.DB, timeout time.Duration) api.ApiHandler {
-	panic(wire.Build(
-		mysql.NewUserRepository,
-		usecase.NewUserUsecase,
-		http.NewUserHandler,
-	))
+func InitailizeDIContainer(configuration *config.Configuration, conn *sql.DB) *container.DIContainer {
+	wire.Build(MainSet)
+	return nil
 }
