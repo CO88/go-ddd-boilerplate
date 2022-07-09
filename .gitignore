@@ -4,6 +4,9 @@
 # vendor
 vendor
 
+# vscode settings
+.vscode
+
 # tmp
 tmp
 
